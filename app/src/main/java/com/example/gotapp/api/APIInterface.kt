@@ -1,6 +1,6 @@
 package com.example.gotapp.api
 
-import com.example.gotapp.model.Data
+import android.provider.ContactsContract.Contacts.Data
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
