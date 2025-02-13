@@ -1,4 +1,5 @@
 package com.example.gotapp.model
 
-class Data {
-}
+data class Data(
+    val characters: List<Character>
+)
