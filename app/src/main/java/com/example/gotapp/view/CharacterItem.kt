@@ -9,10 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.example.gotapp.model.Character
 
 @Composable
@@ -27,10 +26,9 @@ fun CharacterItem(character: Character) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            androidx.compose.foundation.Image(
-                painter = rememberImagePainter(character.imageUrl),
+            AsyncImage(
+                model = character.imageUrl,
                 contentDescription = "Character Image",
-                contentScale = ContentScale.Crop,
                 modifier = Modifier.size(100.dp)
             )
             Text(

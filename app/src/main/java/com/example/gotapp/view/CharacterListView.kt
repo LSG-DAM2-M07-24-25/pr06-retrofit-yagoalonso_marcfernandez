@@ -17,10 +17,12 @@ import com.example.gotapp.viewmodel.APIViewModel
 
 @Composable
 fun CharacterListView(viewModel: APIViewModel) {
-    val showLoading: Boolean by viewModel.loading.observeAsState(true)
-    val characters: Data by viewModel.characters.observeAsState(Data(emptyList()))
+    val showLoading by viewModel.loading.observeAsState(true)
+    val characters by viewModel.characters.observeAsState(Data(emptyList()))
 
-    viewModel.getCharacters()
+    if (characters.characters.isEmpty()) {
+        viewModel.getCharacters()
+    }
 
     if (showLoading) {
         Row(
