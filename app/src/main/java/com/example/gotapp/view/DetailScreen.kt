@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,6 +28,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.gotapp.R
 import com.example.gotapp.viewmodel.APIViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -179,6 +182,35 @@ fun DetailScreen(
                     }
 
                     Spacer(modifier = Modifier.weight(1f))
+
+                    // Botón Kill
+                    Button(
+                        onClick = {
+                            viewModel.addDeadCharacter(character)
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = GotDarkGray
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.sword),
+                            contentDescription = "Kill character",
+                            tint = GotGold,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Kill",
+                            color = GotGold,
+                            fontSize = 18.sp,
+                            fontFamily = FontFamily.Serif
+                        )
+                    }
                 }
             } else {
                 Text(
