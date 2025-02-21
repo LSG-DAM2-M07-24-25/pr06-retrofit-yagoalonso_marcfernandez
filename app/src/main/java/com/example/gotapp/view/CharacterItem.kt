@@ -1,7 +1,11 @@
-package com.example.gotapp.view
+package com.example.thronesapp.view
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -9,13 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.example.gotapp.model.Character
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.example.thronesapp.model.CharacterData
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterItem(character: Character) {
+fun CharacterItem(character: CharacterData) {
     Card(
         border = BorderStroke(2.dp, Color.LightGray),
         shape = RoundedCornerShape(8.dp),
@@ -26,9 +33,10 @@ fun CharacterItem(character: Character) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            AsyncImage(
+            GlideImage(
                 model = character.imageUrl,
                 contentDescription = "Character Image",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.size(100.dp)
             )
             Text(

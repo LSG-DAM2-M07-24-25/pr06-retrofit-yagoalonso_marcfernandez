@@ -1,4 +1,4 @@
-package com.example.gotapp
+package com.example.thronesapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,21 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.gotapp.view.CharacterListView
-import com.example.gotapp.viewmodel.APIViewModel
+import com.example.thronesapp.view.CharacterListView
+import com.example.thronesapp.viewmodel.APIViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val myViewModel by viewModels<APIViewModel>()
+
         setContent {
-            MaterialTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    CharacterListView(myViewModel)
-                }
+            // Capa UI con Jetpack Compose
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                // Llamada al Composable que renderiza la lista
+                CharacterListView(myViewModel)
             }
         }
     }

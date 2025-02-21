@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.thronesapp.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,18 +12,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.gotapp.model.Data
-import com.example.gotapp.viewmodel.APIViewModel
+import com.example.thronesapp.model.CharacterData
+import com.example.thronesapp.viewmodel.APIViewModel
 
 @Composable
-fun CharacterListView(viewModel: APIViewModel) {
-    val showLoading by viewModel.loading.observeAsState(true)
-    val characters by viewModel.characters.observeAsState(Data(emptyList()))
-
-    if (characters.characters.isEmpty()) {
-        viewModel.getCharacters()
-    }
-
+fun CharacterListView(myViewModel: APIViewModel) {
+    val showLoading: Boolean by myViewModel.loading.observeAsState(true)
+    val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
     if (showLoading) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -34,8 +29,8 @@ fun CharacterListView(viewModel: APIViewModel) {
         }
     } else {
         LazyColumn {
-            items(characters.characters) {
-                CharacterItem(character = it)
+            items(characters) { character ->
+                CharacterItem(character = character)
             }
         }
     }

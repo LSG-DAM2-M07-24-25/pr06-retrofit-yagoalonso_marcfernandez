@@ -1,11 +1,11 @@
-package com.example.gotapp.viewmodel
+package com.example.thronesapp.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gotapp.api.Repository
-import com.example.gotapp.model.Data
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import com.example.thronesapp.api.Repository
+import com.example.thronesapp.model.CharacterData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -13,20 +13,34 @@ import kotlinx.coroutines.withContext
 class APIViewModel : ViewModel() {
 
     private val repository = Repository()
-    private val _loading = MutableLiveData(true)
-    val loading = _loading
-    private val _characters = MutableLiveData<Data>()
-    val characters = _characters
+
+    val loading = MutableLiveData(true)
+    val characters = MutableLiveData<List<CharacterData>>()
+
+    init {
+        getCharacters()
+    }
 
     fun getCharacters() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getAllCharacters()
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    _characters.value = response.body() as Data?
-                    _loading.value = false
-                } else {
-                    Log.e("Error :", response.message())
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = repository.getAllCharacters()
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        val data = response.body()
+                        characters.value = data ?: emptyList()
+                        loading.value = false
+
+                        Log.d("APIViewModel", "Datos recibidos: ${data?.size}")
+                    } else {
+                        loading.value = false
+                        Log.e("Error API", "Error: ${response.code()} - ${response.message()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    loading.value = false
+                    Log.e("Error API", "Excepción: ${e.localizedMessage}")
                 }
             }
         }
