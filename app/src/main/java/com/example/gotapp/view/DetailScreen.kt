@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ fun DetailScreen(
 ) {
     val viewModel: APIViewModel = viewModel()
     val characters by viewModel.characters.observeAsState(emptyList())
+    val showLoading by viewModel.loading.observeAsState(true)
     val character = characters.find { it.id == characterId }
 
     Column(
@@ -44,14 +47,20 @@ fun DetailScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        if (character != null) {
+        if (showLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary)
+            }
+        } else if (character != null) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
-                // Imagen sin círculo
                 GlideImage(
                     model = character.imageUrl,
                     contentDescription = character.fullName,

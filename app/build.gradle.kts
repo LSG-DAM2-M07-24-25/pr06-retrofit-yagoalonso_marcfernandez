@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.androidx.navigation.runtime.android)
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.12.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
