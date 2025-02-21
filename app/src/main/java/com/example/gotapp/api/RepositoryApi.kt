@@ -1,6 +1,6 @@
-package com.example.thronesapp.api
+package com.example.gotapp.api
 
-import com.example.thronesapp.model.CharacterData
+import com.example.gotapp.model.CharacterData
 import retrofit2.Response
 
 class Repository {

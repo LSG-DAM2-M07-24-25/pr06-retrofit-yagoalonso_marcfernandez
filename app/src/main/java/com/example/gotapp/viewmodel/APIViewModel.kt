@@ -1,17 +1,16 @@
-package com.example.thronesapp.viewmodel
+package com.example.gotapp.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.thronesapp.api.Repository
-import com.example.thronesapp.model.CharacterData
+import com.example.gotapp.api.Repository
+import com.example.gotapp.model.CharacterData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class APIViewModel : ViewModel() {
-
     private val repository = Repository()
 
     val loading = MutableLiveData(true)
@@ -30,7 +29,6 @@ class APIViewModel : ViewModel() {
                         val data = response.body()
                         characters.value = data ?: emptyList()
                         loading.value = false
-
                         Log.d("APIViewModel", "Datos recibidos: ${data?.size}")
                     } else {
                         loading.value = false

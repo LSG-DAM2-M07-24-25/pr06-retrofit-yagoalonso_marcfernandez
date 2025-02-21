@@ -1,4 +1,4 @@
-package com.example.thronesapp.view
+package com.example.gotapp.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Row
@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.thronesapp.model.CharacterData
+import com.example.gotapp.model.CharacterData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.example.thronesapp.model
+package com.example.gotapp.model
 
 data class CharacterData(
     val id: String,
