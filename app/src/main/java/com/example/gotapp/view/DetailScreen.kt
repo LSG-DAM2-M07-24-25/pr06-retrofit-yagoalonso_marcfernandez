@@ -168,7 +168,7 @@ fun DetailScreen(
                             }
 
                             Text(
-                                text = "Casa ${character.family}",
+                                text = "${character.family}",
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = GotLightGold,
