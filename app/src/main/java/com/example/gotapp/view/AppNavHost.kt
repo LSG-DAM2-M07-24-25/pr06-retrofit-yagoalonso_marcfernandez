@@ -13,11 +13,17 @@ import com.example.gotapp.navigation.Routes
 fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Routes.CharacterList.route,
+        startDestination = Routes.Characters.route,
         modifier = modifier
     ) {
-        composable(Routes.CharacterList.route) {
+        composable(Routes.Characters.route) {
             MyRecyclerView(modifier = modifier, navController = navController)
+        }
+        composable(Routes.Deaths.route) {
+            DeathView()
+        }
+        composable(Routes.Houses.route) {
+            HousesView()
         }
         composable(
             route = Routes.DetailScreen.route,
