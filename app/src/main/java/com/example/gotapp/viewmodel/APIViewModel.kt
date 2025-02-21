@@ -23,6 +23,9 @@ class APIViewModel : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private val _deathMessage = MutableLiveData<String>()
+    val deathMessage: LiveData<String> = _deathMessage
+
     init {
         _deadCharacters.value = emptyList()
         getCharacters()
@@ -35,7 +38,9 @@ class APIViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val data = response.body()
-                        _characters.value = data ?: emptyList()
+                        _characters.value = data?.filter { character ->
+                            !(_deadCharacters.value?.contains(character) ?: false)
+                        } ?: emptyList()
                         _loading.value = false
                         Log.d("APIViewModel", "Datos recibidos: ${data?.size}")
                     } else {
@@ -57,6 +62,16 @@ class APIViewModel : ViewModel() {
         if (!currentDeadList.contains(character)) {
             currentDeadList.add(character)
             _deadCharacters.value = currentDeadList
+
+            val currentLiveList = _characters.value.orEmpty().toMutableList()
+            currentLiveList.remove(character)
+            _characters.value = currentLiveList
+
+            _deathMessage.value = "${character.fullName} ha muerto"
         }
+    }
+
+    fun clearDeathMessage() {
+        _deathMessage.value = ""
     }
 }

@@ -1,5 +1,6 @@
 package com.example.gotapp.view
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -64,6 +66,13 @@ fun DetailScreen(
     val characters by viewModel.characters.observeAsState(emptyList())
     val showLoading by viewModel.loading.observeAsState(true)
     val character = characters.find { it.id == characterId }
+    val deathMessage by viewModel.deathMessage.observeAsState("")
+
+    // Mostrar el mensaje de muerte si existe
+    if (deathMessage.isNotEmpty()) {
+        Toast.makeText(LocalContext.current, deathMessage, Toast.LENGTH_SHORT).show()
+        viewModel.clearDeathMessage()
+    }
 
     Scaffold(
         topBar = {
