@@ -1,6 +1,5 @@
 package com.example.gotapp.view
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,7 +33,6 @@ fun DetailScreen(
     characterId: String,
     modifier: Modifier = Modifier
 ) {
-    // Usamos el mismo ViewModel para acceder a la lista de personajes
     val viewModel: APIViewModel = viewModel()
     val characters by viewModel.characters.observeAsState(emptyList())
     val character = characters.find { it.id == characterId }
@@ -55,13 +51,12 @@ fun DetailScreen(
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
+                // Imagen sin círculo
                 GlideImage(
                     model = character.imageUrl,
                     contentDescription = character.fullName,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(200.dp)
-                        .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                    modifier = Modifier.size(200.dp)
                 )
             }
             Spacer(modifier = Modifier.height(24.dp))
@@ -74,15 +69,19 @@ fun DetailScreen(
             Text(
                 text = "Título: ${character.title}",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.DarkGray
+                fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Familia: ${character.family}",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.DarkGray
+                fontWeight = FontWeight.Medium
+            )
+        } else {
+            Text(
+                text = "Personaje no encontrado",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
             )
         }
         Button(
