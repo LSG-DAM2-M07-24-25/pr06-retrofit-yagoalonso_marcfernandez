@@ -114,7 +114,7 @@ fun DetailScreen(
                         }
 
                         Text(
-                            text = "Casa ${character.family}",
+                            text = "${character.family}",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.tertiary,
