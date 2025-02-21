@@ -1,6 +1,7 @@
 package com.example.gotapp.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +14,17 @@ import kotlinx.coroutines.withContext
 class APIViewModel : ViewModel() {
     private val repository = Repository()
 
-    val loading = MutableLiveData(true)
-    val characters = MutableLiveData<List<CharacterData>>()
+    private val _characters = MutableLiveData<List<CharacterData>>()
+    val characters: LiveData<List<CharacterData>> = _characters
+
+    private val _deadCharacters = MutableLiveData<List<CharacterData>>()
+    val deadCharacters: LiveData<List<CharacterData>> = _deadCharacters
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
 
     init {
+        _deadCharacters.value = emptyList()
         getCharacters()
     }
 
@@ -27,20 +35,28 @@ class APIViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val data = response.body()
-                        characters.value = data ?: emptyList()
-                        loading.value = false
+                        _characters.value = data ?: emptyList()
+                        _loading.value = false
                         Log.d("APIViewModel", "Datos recibidos: ${data?.size}")
                     } else {
-                        loading.value = false
+                        _loading.value = false
                         Log.e("Error API", "Error: ${response.code()} - ${response.message()}")
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    loading.value = false
+                    _loading.value = false
                     Log.e("Error API", "Excepción: ${e.localizedMessage}")
                 }
             }
+        }
+    }
+
+    fun addDeadCharacter(character: CharacterData) {
+        val currentDeadList = _deadCharacters.value.orEmpty().toMutableList()
+        if (!currentDeadList.contains(character)) {
+            currentDeadList.add(character)
+            _deadCharacters.value = currentDeadList
         }
     }
 }
