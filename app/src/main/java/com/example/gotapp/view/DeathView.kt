@@ -2,6 +2,7 @@ package com.example.gotapp.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,14 +15,17 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.gotapp.navigation.Routes
 import com.example.gotapp.ui.theme.GotBlack
 import com.example.gotapp.ui.theme.GotDarkGray
 import com.example.gotapp.ui.theme.GotGold
@@ -30,7 +34,7 @@ import com.example.gotapp.viewmodel.APIViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun DeathView() {
+fun DeathView(navController: NavController) {
     val viewModel: APIViewModel = viewModel()
     val deadCharacters by viewModel.deadCharacters.observeAsState(emptyList())
 
@@ -83,7 +87,10 @@ fun DeathView() {
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
+                                .padding(horizontal = 16.dp)
+                                .clickable {
+                                    navController.navigate(Routes.DetailScreen.createRoute(character.id.toString()))
+                                },
                             colors = CardDefaults.cardColors(
                                 containerColor = GotDarkGray
                             ),
@@ -114,12 +121,20 @@ fun DeathView() {
 
                                 Column {
                                     Text(
-                                        text = "${character.fullName} ha muerto",
+                                        text = character.fullName,
                                         color = GotGold,
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
                                         fontFamily = FontFamily.Serif
                                     )
+                                    if (character.title.isNotBlank()) {
+                                        Text(
+                                            text = character.title,
+                                            color = Color.Gray,
+                                            fontSize = 14.sp,
+                                            fontFamily = FontFamily.Serif
+                                        )
+                                    }
                                     Text(
                                         text = character.family,
                                         color = GotLightGold,

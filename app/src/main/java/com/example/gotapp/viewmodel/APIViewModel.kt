@@ -10,6 +10,7 @@ import com.example.gotapp.model.CharacterData
 import com.example.gotapp.room.GoTDatabase
 import com.example.gotapp.room.RepositoryRoom
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 class APIViewModel(application: Application) : AndroidViewModel(application) {
     private val repositoryApi = RepositoryApi()
@@ -36,9 +37,12 @@ class APIViewModel(application: Application) : AndroidViewModel(application) {
                 val response = repositoryApi.getAllCharacters()
                 if (response.isSuccessful) {
                     response.body()?.let { apiCharacters ->
-                        repositoryRoom.insertCharacters(apiCharacters.map { 
-                            it.copy(isDead = false) 
-                        })
+                        // Solo insertamos si la base de datos está vacía
+                        if (_characters.value.isNullOrEmpty()) {
+                            repositoryRoom.insertCharacters(apiCharacters.map { 
+                                it.copy(isDead = false) 
+                            })
+                        }
                     }
                 }
             } finally {
@@ -49,8 +53,8 @@ class APIViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun observeCharacters() {
         viewModelScope.launch {
-            repositoryRoom.getAllCharacters().collect { characters ->
-                _characters.value = characters
+            repositoryRoom.getAllCharacters().collect { allCharacters ->
+                _characters.value = allCharacters  // Ahora mostramos todos los personajes
             }
         }
         viewModelScope.launch {

@@ -183,7 +183,6 @@ fun DetailScreen(
                             } else {
                                 viewModel.killCharacter(character.id)
                             }
-                            navController.popBackStack()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
