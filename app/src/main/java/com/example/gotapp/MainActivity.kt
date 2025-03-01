@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                         MyRecyclerView(navController = navController)
                     }
                     composable(BottomNavItem.Deaths.route) {
-                        DeathView()
+                        DeathView(navController = navController)
                     }
                     composable(BottomNavItem.Houses.route) {
                         HousesView()
