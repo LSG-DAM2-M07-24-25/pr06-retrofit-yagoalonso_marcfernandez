@@ -114,7 +114,7 @@ fun DeathView() {
 
                                 Column {
                                     Text(
-                                        text = "${character.fullName} ha muerto",
+                                        text = character.fullName,
                                         color = GotGold,
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
