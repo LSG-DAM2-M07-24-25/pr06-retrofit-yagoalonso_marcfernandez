@@ -3,16 +3,9 @@ package com.example.gotapp.view
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -21,14 +14,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,19 +34,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.gotapp.R
 import com.example.gotapp.viewmodel.APIViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import com.example.gotapp.ui.theme.GotBlack
 import com.example.gotapp.ui.theme.GotDarkGray
 import com.example.gotapp.ui.theme.GotGold
@@ -65,14 +57,7 @@ fun DetailScreen(
     val viewModel: APIViewModel = viewModel()
     val characters by viewModel.characters.observeAsState(emptyList())
     val showLoading by viewModel.loading.observeAsState(true)
-    val character = characters.find { it.id == characterId }
-    val deathMessage by viewModel.deathMessage.observeAsState("")
-
-    // Mostrar el mensaje de muerte si existe
-    if (deathMessage.isNotEmpty()) {
-        Toast.makeText(LocalContext.current, deathMessage, Toast.LENGTH_SHORT).show()
-        viewModel.clearDeathMessage()
-    }
+    val character = characters.find { it.id == characterId.toInt() }
 
     Scaffold(
         topBar = {
@@ -123,7 +108,6 @@ fun DetailScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Imagen del personaje
                     Card(
                         modifier = Modifier
                             .size(300.dp)
@@ -142,7 +126,6 @@ fun DetailScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Tarjeta para la información
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -181,7 +164,7 @@ fun DetailScreen(
                             }
 
                             Text(
-                                text = "${character.family}",
+                                text = character.family,
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = GotLightGold,
@@ -193,10 +176,13 @@ fun DetailScreen(
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    // Botón Kill
                     Button(
                         onClick = {
-                            viewModel.addDeadCharacter(character)
+                            if (character.isDead) {
+                                viewModel.reviveCharacter(character.id)
+                            } else {
+                                viewModel.killCharacter(character.id)
+                            }
                             navController.popBackStack()
                         },
                         modifier = Modifier
@@ -209,28 +195,19 @@ fun DetailScreen(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.sword),
-                            contentDescription = "Kill character",
+                            contentDescription = if (character.isDead) "Revive character" else "Kill character",
                             tint = GotGold,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Kill",
+                            text = if (character.isDead) "Revive" else "Kill",
                             color = GotGold,
                             fontSize = 18.sp,
                             fontFamily = FontFamily.Serif
                         )
                     }
                 }
-            } else {
-                Text(
-                    text = "Personaje no encontrado",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = GotGold,
-                    modifier = Modifier.align(Alignment.Center),
-                    fontFamily = FontFamily.Serif
-                )
             }
         }
     }

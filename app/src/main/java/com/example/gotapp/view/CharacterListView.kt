@@ -103,7 +103,7 @@ fun MyRecyclerView(modifier: Modifier = Modifier, navController: NavController) 
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp)
                                 .clickable {
-                                    navController.navigate(Routes.DetailScreen.createRoute(character.id))
+                                    navController.navigate(Routes.DetailScreen.createRoute(character.id.toString()))
                                 },
                             colors = CardDefaults.cardColors(
                                 containerColor = GotDarkGray
@@ -120,7 +120,6 @@ fun MyRecyclerView(modifier: Modifier = Modifier, navController: NavController) 
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
-                                // Imagen del personaje
                                 Card(
                                     shape = CircleShape,
                                     border = BorderStroke(2.dp, GotGold),
@@ -134,7 +133,6 @@ fun MyRecyclerView(modifier: Modifier = Modifier, navController: NavController) 
                                     )
                                 }
 
-                                // Información del personaje
                                 Column {
                                     Text(
                                         text = character.fullName,

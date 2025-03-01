@@ -24,4 +24,4 @@ sealed class BottomNavItem(
         title = "Houses",
         icon = R.drawable.shield
     )
-} 
+}

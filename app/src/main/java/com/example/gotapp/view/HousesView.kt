@@ -15,4 +15,4 @@ fun HousesView() {
     ) {
         Text(text = "Houses View")
     }
-} 
+}
