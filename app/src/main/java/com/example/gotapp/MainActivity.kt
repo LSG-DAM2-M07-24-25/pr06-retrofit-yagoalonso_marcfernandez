@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                         DeathView(navController = navController)
                     }
                     composable(BottomNavItem.Houses.route) {
-                        HousesView()
+                        HousesView(navController = navController)
                     }
                     composable(
                         route = "detail_screen/{id}",

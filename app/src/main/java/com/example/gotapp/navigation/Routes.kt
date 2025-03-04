@@ -7,4 +7,7 @@ sealed class Routes(val route: String) {
     object DetailScreen : Routes("detail_screen/{id}") {
         fun createRoute(id: String) = "detail_screen/$id"
     }
+    object HouseDetailScreen : Routes("house_detail_screen/{id}") {
+        fun createRoute(id: String) = "house_detail_screen/$id"
+    }
 }
