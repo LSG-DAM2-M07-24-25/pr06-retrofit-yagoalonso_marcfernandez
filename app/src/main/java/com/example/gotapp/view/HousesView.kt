@@ -4,8 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -17,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -66,16 +69,18 @@ fun HousesView(navController: NavController) {
                 .padding(paddingValues)
                 .background(GotBlack)
         ) {
-            LazyColumn(
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp),
+                contentPadding = PaddingValues(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(houses) { house ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
+                            .aspectRatio(0.8f)
                             .clickable {
                                 navController.navigate(Routes.HouseDetailScreen.createRoute(house.id.toString()))
                             },
@@ -87,42 +92,54 @@ fun HousesView(navController: NavController) {
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Row(
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Card(
                                 shape = CircleShape,
                                 border = BorderStroke(2.dp, GotGold),
-                                modifier = Modifier.size(80.dp)
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .padding(4.dp)
                             ) {
+                                // Obtenemos el ID del recurso de imagen
+                                val resourceId = context.resources.getIdentifier(
+                                    house.imageUrl, 
+                                    null, 
+                                    context.packageName
+                                )
+                                
                                 GlideImage(
-                                    model = "file:///android_asset/drawable/${house.imageUrl}",
+                                    model = resourceId,
                                     contentDescription = house.name,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
                                 )
                             }
 
-                            Column {
-                                Text(
-                                    text = house.name,
-                                    color = GotGold,
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = FontFamily.Serif
-                                )
-                                Text(
-                                    text = house.motto,
-                                    color = GotLightGold,
-                                    fontSize = 16.sp,
-                                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
-                                    fontFamily = FontFamily.Serif
-                                )
-                            }
+                            Text(
+                                text = house.name,
+                                color = GotGold,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                fontFamily = FontFamily.Serif,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            
+                            Text(
+                                text = "\"${house.motto}\"",
+                                color = GotLightGold,
+                                fontSize = 12.sp,
+                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                                textAlign = TextAlign.Center,
+                                fontFamily = FontFamily.Serif,
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
                 }

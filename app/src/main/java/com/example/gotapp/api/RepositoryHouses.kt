@@ -1,6 +1,7 @@
 package com.example.gotapp.api
 
 import com.example.gotapp.model.HouseData
+import com.example.gotapp.R
 
 class RepositoryHouses {
     fun getHouses(): List<HouseData> {
@@ -11,7 +12,7 @@ class RepositoryHouses {
                 motto = "Ours is the Fury",
                 region = "Stormlands",
                 castle = "Storm's End",
-                imageUrl = "baratheon.webp"
+                imageUrl = "drawable/baratheon"
             ),
             HouseData(
                 id = 2,
@@ -19,7 +20,7 @@ class RepositoryHouses {
                 motto = "Hear Me Roar!",
                 region = "Westerlands",
                 castle = "Casterly Rock",
-                imageUrl = "lannister.webp"
+                imageUrl = "drawable/lannister"
             ),
             HouseData(
                 id = 3,
@@ -27,7 +28,7 @@ class RepositoryHouses {
                 motto = "Winter is Coming",
                 region = "The North",
                 castle = "Winterfell",
-                imageUrl = "stark.webp"
+                imageUrl = "drawable/stark"
             ),
             HouseData(
                 id = 4,
@@ -35,7 +36,7 @@ class RepositoryHouses {
                 motto = "Family, Duty, Honor",
                 region = "Riverlands",
                 castle = "Riverrun",
-                imageUrl = "tully.webp"
+                imageUrl = "drawable/tully"
             ),
             HouseData(
                 id = 5,
@@ -43,7 +44,7 @@ class RepositoryHouses {
                 motto = "We Stand Together",
                 region = "Riverlands",
                 castle = "Twins",
-                imageUrl = "frey.webp"
+                imageUrl = "drawable/frey"
             ),
             HouseData(
                 id = 6,
@@ -51,7 +52,7 @@ class RepositoryHouses {
                 motto = "Growing Strong",
                 region = "Reach",
                 castle = "Highgarden",
-                imageUrl = "tyrell.webp"
+                imageUrl = "drawable/tyrell"
             ),
             HouseData(
                 id = 7,
@@ -59,7 +60,7 @@ class RepositoryHouses {
                 motto = "We Light the Way",
                 region = "Reach",
                 castle = "Oldtown",
-                imageUrl = "hightower.webp"
+                imageUrl = "drawable/hightower"
             ),
             HouseData(
                 id = 8,
@@ -67,7 +68,7 @@ class RepositoryHouses {
                 motto = "The Old, the True, the Brave",
                 region = "Crownlands",
                 castle = "Castle Driftmark",
-                imageUrl = "velaryon.jpg"
+                imageUrl = "drawable/velaryon"
             ),
             HouseData(
                 id = 9,
@@ -75,7 +76,95 @@ class RepositoryHouses {
                 motto = "Fire and Blood",
                 region = "Crownlands",
                 castle = "Red Keep",
-                imageUrl = "targaryen.webp"
+                imageUrl = "drawable/targaryen"
+            ),
+            HouseData(
+                id = 10,
+                name = "House Greyjoy",
+                motto = "We Do Not Sow",
+                region = "Iron Islands",
+                castle = "Iron Islands",
+                imageUrl = "drawable/greyjoy"
+            ),
+            HouseData(
+                id = 11,
+                name = "House Martell",
+                motto = "Unbowed, Unbent, Unbroken",
+                region = "Dorne",
+                castle = "Sunspear",
+                imageUrl = "drawable/martell"
+            ),
+            HouseData(
+                id = 12,
+                name = "House Baelish",
+                motto = "Knowledge is Power",
+                region = "Vale of Arryn",
+                castle = "Harrenhal",
+                imageUrl = "drawable/baelish"
+            ),
+            HouseData(
+                id = 13,
+                name = "House Arryn",
+                motto = "As High as Honor",
+                region = "Vale of Arryn",
+                castle = "Eyrie",
+                imageUrl = "drawable/arryn"
+            ),
+            HouseData(
+                id = 14,
+                name = "House Tarly",
+                motto = "First in Battle",
+                region = "Reach",
+                castle = "Horn Hill",
+                imageUrl = "drawable/tarly"
+            ),
+            HouseData(
+                id = 15,
+                name = "House Bolton",
+                motto = "Our Blades Are Sharp",
+                region = "North",
+                castle = "Dreadfort",
+                imageUrl = "drawable/bolton"
+            ),
+            HouseData(
+                id = 16,
+                name = "House Mallister",
+                motto = "Above the Rest",
+                region = "Riverlands",
+                castle = "Seagard",
+                imageUrl = "drawable/mallister"
+            ),
+            HouseData(
+                id = 17,
+                name = "House Mormont",
+                motto = "Here We Stand",
+                region = "North",
+                castle = "Mormont Keep",
+                imageUrl = "drawable/mormont"
+            ),
+            HouseData(
+                id = 18,
+                name = "House Royce",
+                motto = "We Remember",
+                region = "Vale of Arryn",
+                castle = "Runestone",
+                imageUrl = "drawable/royce"
+            ),
+            HouseData(
+                id = 19,
+                name = "House Karstark",
+                motto = "The Winter Sun",
+                region = "North",
+                castle = "Karhold",
+                imageUrl = "drawable/karstark"
+            ),
+            HouseData(
+                id = 20,
+                name = "House Allyrion",
+                motto = "No Enemy will Pass",
+                region = "Dorne",
+                castle = "Bondadivina",
+                imageUrl = "drawable/allyrion"
             )
         )
     }

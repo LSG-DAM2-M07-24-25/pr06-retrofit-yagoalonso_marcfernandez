@@ -3,7 +3,9 @@ package com.example.gotapp.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -38,6 +40,7 @@ fun HouseDetailScreen(
     val viewModel: HousesViewModel = viewModel()
     val house = viewModel.getHouseById(houseId.toInt())
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -78,27 +81,48 @@ fun HouseDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .verticalScroll(scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    // Nombre de la casa
+                    Text(
+                        text = house.name,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = GotGold,
+                        textAlign = TextAlign.Center,
+                        fontFamily = FontFamily.Serif,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    
+                    // Imagen de la casa
                     Card(
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(250.dp)
                             .padding(8.dp),
                         shape = RoundedCornerShape(16.dp),
                         elevation = CardDefaults.cardElevation(8.dp),
                         border = BorderStroke(2.dp, GotGold)
                     ) {
+                        // Obtenemos el ID del recurso de imagen
+                        val resourceId = context.resources.getIdentifier(
+                            house.imageUrl, 
+                            null, 
+                            context.packageName
+                        )
+                        
                         GlideImage(
-                            model = "file:///android_asset/drawable/${house.imageUrl}",
+                            model = resourceId,
                             contentDescription = house.name,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
+                    // Lema de la casa
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -112,30 +136,57 @@ fun HouseDetailScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(24.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = house.name,
-                                fontSize = 28.sp,
+                                text = "Lema",
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = GotGold,
-                                textAlign = TextAlign.Center,
                                 fontFamily = FontFamily.Serif
                             )
                             
                             Text(
                                 text = "\"${house.motto}\"",
-                                fontSize = 20.sp,
+                                fontSize = 22.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = GotLightGold,
                                 textAlign = TextAlign.Center,
                                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                                fontFamily = FontFamily.Serif,
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Información de la casa
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = GotDarkGray
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Text(
+                                text = "Información",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = GotGold,
                                 fontFamily = FontFamily.Serif
                             )
-
-                            Spacer(modifier = Modifier.height(8.dp))
                             
                             HouseInfoItem(title = "Región", value = house.region)
                             HouseInfoItem(title = "Castillo", value = house.castle)
