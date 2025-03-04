@@ -82,6 +82,15 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     }
+                    composable(
+                        route = "house_detail_screen/{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        HouseDetailScreen(
+                            houseId = backStackEntry.arguments?.getString("id") ?: "",
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
