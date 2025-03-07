@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.gotapp.view.medium
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -32,13 +31,12 @@ import com.example.gotapp.viewmodel.HousesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun HouseDetailScreen(
+fun MediumHouseDetailScreen(
     navController: NavController,
-    houseId: String,
-    modifier: Modifier = Modifier
+    housesViewModel: HousesViewModel,
+    houseId: String
 ) {
-    val viewModel: HousesViewModel = viewModel()
-    val house = viewModel.getHouseById(houseId.toInt())
+    val house = housesViewModel.getHouseById(houseId.toInt())
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
@@ -72,7 +70,7 @@ fun HouseDetailScreen(
         containerColor = GotBlack
     ) { paddingValues ->
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(GotBlack)
@@ -85,7 +83,6 @@ fun HouseDetailScreen(
                         .verticalScroll(scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Nombre de la casa
                     Text(
                         text = house.name,
                         fontSize = 32.sp,
@@ -96,7 +93,6 @@ fun HouseDetailScreen(
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                     
-                    // Imagen de la casa
                     Card(
                         modifier = Modifier
                             .size(250.dp)
@@ -105,7 +101,6 @@ fun HouseDetailScreen(
                         elevation = CardDefaults.cardElevation(8.dp),
                         border = BorderStroke(2.dp, GotGold)
                     ) {
-                        // Obtenemos el ID del recurso de imagen
                         val resourceId = context.resources.getIdentifier(
                             house.imageUrl, 
                             null, 
@@ -122,7 +117,6 @@ fun HouseDetailScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Lema de la casa
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -162,7 +156,6 @@ fun HouseDetailScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Información de la casa
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -211,7 +204,7 @@ fun HouseDetailScreen(
 }
 
 @Composable
-fun HouseInfoItem(title: String, value: String) {
+private fun HouseInfoItem(title: String, value: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
@@ -230,4 +223,4 @@ fun HouseInfoItem(title: String, value: String) {
             fontFamily = FontFamily.Serif
         )
     }
-} 
+}

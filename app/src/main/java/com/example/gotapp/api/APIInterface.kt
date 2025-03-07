@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-
+// per la trucada a la api
 interface APIInterface {
     @GET("Characters")
     suspend fun getCharacters(): Response<List<CharacterData>>

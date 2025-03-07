@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.gotapp.view.medium
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -52,7 +52,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun MyRecyclerView(modifier: Modifier = Modifier, navController: NavController) {
+fun MediumCharacterListView(modifier: Modifier = Modifier, navController: NavController) {
     val myViewModel: APIViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())

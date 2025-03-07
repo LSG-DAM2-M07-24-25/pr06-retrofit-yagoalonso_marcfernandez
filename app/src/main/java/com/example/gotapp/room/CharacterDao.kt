@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterDao {
+    // consultes a la bbdd
     @Query("SELECT * FROM characters")
     fun getAllCharacters(): Flow<List<CharacterData>>
 

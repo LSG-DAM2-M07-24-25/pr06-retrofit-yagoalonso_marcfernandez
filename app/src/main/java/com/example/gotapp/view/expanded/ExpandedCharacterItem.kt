@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.gotapp.view.expanded
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Row
@@ -22,7 +22,7 @@ import com.example.gotapp.model.CharacterData
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterItem(character: CharacterData) {
+fun ExpandedCharacterItem(character: CharacterData) {
     Card(
         border = BorderStroke(2.dp, Color.LightGray),
         shape = RoundedCornerShape(8.dp),

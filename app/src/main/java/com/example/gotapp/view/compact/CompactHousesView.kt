@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.gotapp.view.compact
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -37,9 +37,11 @@ import com.example.gotapp.viewmodel.HousesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun HousesView(navController: NavController) {
-    val viewModel: HousesViewModel = viewModel()
-    val houses by viewModel.houses.observeAsState(emptyList())
+fun CompactHousesView(
+    navController: NavController,
+    housesViewModel: HousesViewModel
+) {
+    val houses by housesViewModel.houses.observeAsState(emptyList())
     val context = LocalContext.current
 
     Scaffold(
@@ -82,7 +84,7 @@ fun HousesView(navController: NavController) {
                             .fillMaxWidth()
                             .aspectRatio(0.8f)
                             .clickable {
-                                navController.navigate(Routes.HouseDetailScreen.createRoute(house.id.toString()))
+                                navController.navigate(Routes.HouseDetailScreenCompact.createRoute(house.id.toString()))
                             },
                         colors = CardDefaults.cardColors(
                             containerColor = GotDarkGray

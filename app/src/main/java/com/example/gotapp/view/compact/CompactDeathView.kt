@@ -1,4 +1,4 @@
-package com.example.gotapp.view
+package com.example.gotapp.view.compact
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -34,7 +34,7 @@ import com.example.gotapp.viewmodel.APIViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun DeathView(navController: NavController) {
+fun CompactDeathView(navController: NavController) {
     val viewModel: APIViewModel = viewModel()
     val deadCharacters by viewModel.deadCharacters.observeAsState(emptyList())
 
@@ -150,4 +150,3 @@ fun DeathView(navController: NavController) {
         }
     }
 }
-

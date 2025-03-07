@@ -54,6 +54,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation(libs.androidx.foundation.layout.android)
     val roomVersion = "2.6.1"
     
     implementation("androidx.room:room-runtime:$roomVersion")

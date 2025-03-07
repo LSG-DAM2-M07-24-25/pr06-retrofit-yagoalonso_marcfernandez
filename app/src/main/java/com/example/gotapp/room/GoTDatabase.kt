@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.gotapp.model.CharacterData
 import com.example.gotapp.room.dao.CharacterDao
-
+// creacio de bbdd
 @Database(entities = [CharacterData::class], version = 1, exportSchema = false)
 abstract class GoTDatabase : RoomDatabase() {
     abstract fun characterDao(): CharacterDao
