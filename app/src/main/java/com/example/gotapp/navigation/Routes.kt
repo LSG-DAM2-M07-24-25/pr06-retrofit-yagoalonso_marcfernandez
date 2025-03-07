@@ -1,7 +1,8 @@
+// Este archivo define todas las rutas (URLs internas) de la app
 package com.example.gotapp.navigation
 
 sealed class Routes(val route: String) {
-    // Vistas Compact
+    // Rutas para pantallas pequeñas (móviles)
     object CharactersCompact : Routes("characters_compact")
     object HousesScreenCompact : Routes("houses_screen_compact")
     object DetailScreenCompact : Routes("detail_screen_compact/{characterId}") {
@@ -12,7 +13,7 @@ sealed class Routes(val route: String) {
     }
     object DeathViewCompact : Routes("death_view_compact")
 
-    // Vistas Medium
+    // Rutas para pantallas medianas (tablets)
     object CharactersMedium : Routes("characters_medium")
     object HousesScreenMedium : Routes("houses_screen_medium")
     object DetailScreenMedium : Routes("detail_screen_medium/{characterId}") {
@@ -23,7 +24,7 @@ sealed class Routes(val route: String) {
     }
     object DeathViewMedium : Routes("death_view_medium")
 
-    // Vistas Expanded
+    // Rutas para pantallas grandes (desktop)
     object CharactersExpanded : Routes("characters_expanded")
     object HousesScreenExpanded : Routes("houses_screen_expanded")
     object DetailScreenExpanded : Routes("detail_screen_expanded/{characterId}") {
@@ -34,7 +35,7 @@ sealed class Routes(val route: String) {
     }
     object DeathViewExpanded : Routes("death_view_expanded")
 
-    // Rutas Responsivas (detectarán automáticamente el tamaño)
+    // Rutas que se adaptan automáticamente al tamaño de la pantalla
     object Characters : Routes("characters")
     object HousesScreen : Routes("houses_screen")
     object DetailScreen : Routes("detail_screen/{characterId}") {
@@ -45,13 +46,14 @@ sealed class Routes(val route: String) {
     }
     object DeathView : Routes("death_view")
 
+    // Función para obtener la ruta correcta según el tamaño de pantalla
     companion object {
         fun getRouteForSize(baseRoute: String, deviceType: String): String {
             return when (deviceType) {
-                "compact" -> "${baseRoute}_compact"
-                "medium" -> "${baseRoute}_medium"
-                "expanded" -> "${baseRoute}_expanded"
-                else -> "${baseRoute}_compact"
+                "compact" -> "${baseRoute}_compact"     // Para móviles
+                "medium" -> "${baseRoute}_medium"       // Para tablets
+                "expanded" -> "${baseRoute}_expanded"   // Para desktop
+                else -> "${baseRoute}_compact"          // Por defecto, móvil
             }
         }
     }

@@ -1,3 +1,4 @@
+// Este archivo define cómo se conectan todas las pantallas de la app
 package com.example.gotapp.navigation
 
 import android.content.res.Configuration
@@ -45,19 +46,22 @@ import androidx.compose.ui.platform.LocalConfiguration
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
-    navController: NavHostController,
-    apiViewModel: APIViewModel,
-    housesViewModel: HousesViewModel
+    navController: NavHostController,    // Controla la navegación entre pantallas
+    apiViewModel: APIViewModel,          // Maneja los datos de la API
+    housesViewModel: HousesViewModel     // Maneja los datos de las casas
 ) {
+    // Obtener la ruta actual para saber en qué pantalla estamos
     val currentRoute by navController.currentBackStackEntryAsState()
 
     Scaffold(
+        // Definir la barra de navegación inferior
         bottomBar = {
             NavigationBar(
-                containerColor = Color(0xFF121212),
+                containerColor = Color(0xFF121212),    // Color de fondo negro
                 tonalElevation = 0.dp,
-                modifier = Modifier.height(80.dp)
+                modifier = Modifier.height(80.dp)      // Altura de la barra
             ) {
+                // Crear una fila con los botones de navegación
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -65,6 +69,7 @@ fun NavGraph(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Crear cada botón de la barra de navegación
                     BottomNavItem.getItems().forEach { item ->
                         val isSelected = currentRoute?.destination?.route == item.getRoute("compact")
                         Column(
@@ -93,11 +98,13 @@ fun NavGraph(
             }
         }
     ) { paddingValues ->
+        // Definir todas las pantallas de la app
         NavHost(
             navController = navController,
-            startDestination = Routes.CharactersCompact.route,
+            startDestination = Routes.CharactersCompact.route,    // Pantalla inicial
             modifier = Modifier.padding(paddingValues)
         ) {
+            // Definir cada pantalla de la app
             composable(Routes.CharactersCompact.route) {
                 CompactCharacterListView(
                     modifier = Modifier,
