@@ -49,11 +49,15 @@ import com.example.gotapp.ui.theme.GotDarkGray
 import com.example.gotapp.ui.theme.GotBlack
 import com.example.gotapp.ui.theme.GotLightGold
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.gotapp.view.SearchScreen
+import com.example.gotapp.view.MySearchBarView
+import com.example.gotapp.viewmodel.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavController) {
     val myViewModel: APIViewModel = viewModel()
+    val searchViewModel: SearchViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
 
@@ -97,6 +101,10 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
                     contentPadding = PaddingValues(vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    item {
+                        SearchScreen(searchViewModel, PaddingValues(0.dp))
+                    }
+
                     items(characters) { character ->
                         Card(
                             modifier = Modifier

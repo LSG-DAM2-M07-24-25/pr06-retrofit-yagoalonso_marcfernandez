@@ -51,15 +51,17 @@ import com.example.gotapp.ui.theme.GotLightGold
 import com.bumptech.glide.integration.compose.GlideImage
 import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalConfiguration
+import com.example.gotapp.view.SearchScreen
+import com.example.gotapp.view.MySearchBarView
+import com.example.gotapp.viewmodel.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun CompactCharacterListView(modifier: Modifier = Modifier, navController: NavController) {
     val myViewModel: APIViewModel = viewModel()
+    val searchViewModel: SearchViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
-    
-    // Detectar orientación
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
@@ -100,12 +102,13 @@ fun CompactCharacterListView(modifier: Modifier = Modifier, navController: NavCo
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        vertical = 8.dp,
-                        horizontal = if (isPortrait) 16.dp else 24.dp
-                    ),
+                    contentPadding = PaddingValues(vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    item {
+                        SearchScreen(searchViewModel, PaddingValues(0.dp))
+                    }
+
                     items(characters) { character ->
                         Card(
                             modifier = Modifier

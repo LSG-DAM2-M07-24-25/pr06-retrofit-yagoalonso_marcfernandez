@@ -34,6 +34,15 @@ import com.example.gotapp.ui.theme.GotDarkGray
 import com.example.gotapp.ui.theme.GotGold
 import com.example.gotapp.ui.theme.GotLightGold
 import com.example.gotapp.viewmodel.HousesViewModel
+import com.example.gotapp.viewmodel.SearchBarViewModel
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
@@ -42,6 +51,8 @@ fun MediumHousesView(
     housesViewModel: HousesViewModel
 ) {
     val houses by housesViewModel.houses.observeAsState(emptyList())
+    val searchViewModel: SearchBarViewModel = viewModel()
+    val searchText by searchViewModel.searchText.observeAsState("")
     val context = LocalContext.current
 
     Scaffold(
@@ -78,7 +89,56 @@ fun MediumHousesView(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(houses) { house ->
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    SearchBar(
+                        query = searchText,
+                        onQueryChange = { searchViewModel.onSearchTextChange(it) },
+                        onSearch = { },
+                        active = false,
+                        onActiveChange = { },
+                        leadingIcon = { 
+                            Icon(
+                                imageVector = Icons.Default.Search, 
+                                contentDescription = "Search",
+                                tint = GotGold
+                            )
+                        },
+                        trailingIcon = {
+                            if (searchText.isNotEmpty()) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = "Clear",
+                                    tint = GotGold,
+                                    modifier = Modifier.clickable { 
+                                        searchViewModel.onSearchTextChange("") 
+                                    }
+                                )
+                            }
+                        },
+                        placeholder = { 
+                            Text(
+                                "Buscar casa...",
+                                color = Color.Gray
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        colors = SearchBarDefaults.colors(
+                            containerColor = GotDarkGray,
+                            inputFieldColors = TextFieldDefaults.colors(
+                                focusedTextColor = GotGold,
+                                unfocusedTextColor = GotGold
+                            )
+                        )
+                    ) {}
+                }
+
+                items(houses.filter { house ->
+                    house.name.contains(searchText, ignoreCase = true) ||
+                    house.region.contains(searchText, ignoreCase = true) ||
+                    house.motto.contains(searchText, ignoreCase = true)
+                }) { house ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
