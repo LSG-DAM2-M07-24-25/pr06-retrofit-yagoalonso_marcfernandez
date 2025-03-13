@@ -62,6 +62,7 @@ fun CompactCharacterListView(modifier: Modifier = Modifier, navController: NavCo
     val searchViewModel: SearchViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
+    val searchedText by searchViewModel.searchedText.observeAsState("")
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
@@ -106,10 +107,12 @@ fun CompactCharacterListView(modifier: Modifier = Modifier, navController: NavCo
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
-                        SearchScreen(searchViewModel, PaddingValues(0.dp))
+                        MySearchBarView(searchViewModel)
                     }
 
-                    items(characters) { character ->
+                    items(characters.filter { character ->
+                        character.fullName.contains(searchedText, ignoreCase = true)
+                    }) { character ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()

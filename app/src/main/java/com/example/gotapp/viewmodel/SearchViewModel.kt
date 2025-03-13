@@ -12,7 +12,6 @@ class SearchViewModel : ViewModel() {
     // Lista que guarda el historial de búsquedas
     private val _searchHistory = MutableLiveData<List<String>>(emptyList())
     val searchHistory: LiveData<List<String>> = _searchHistory
-
     // Función que se llama cada vez que el texto de búsqueda cambia
     fun onSearchTextChange(text: String) {
         this._searchedText.value = text

@@ -2,7 +2,6 @@ package com.example.gotapp.view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -16,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.gotapp.viewmodel.SearchViewModel
 import com.example.gotapp.ui.theme.GotGold
@@ -36,21 +34,26 @@ fun MySearchBarView(myViewModel: SearchViewModel) {
         onSearch = { myViewModel.addToHistory(it) },
         active = false,
         onActiveChange = { },
-        leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search", tint = GotGold) },
+        leadingIcon = { 
+            Icon(
+                imageVector = Icons.Filled.Search, 
+                contentDescription = "Search",
+                tint = GotGold
+            )
+        },
         trailingIcon = {
-            if (searchHistory.isNotEmpty()) {
+            if (searchedText.isNotEmpty()) {
                 Icon(
                     imageVector = Icons.Filled.Clear,
                     contentDescription = "Clear",
                     tint = GotGold,
-                    modifier = Modifier.clickable { myViewModel.clearHistory() }
+                    modifier = Modifier.clickable { myViewModel.onSearchTextChange("") }
                 )
             }
         },
-        placeholder = { Text("¿Qué estás buscando?", color = Color.Gray) },
+        placeholder = { Text("Buscar personaje...", color = GotGold.copy(alpha = 0.6f)) },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
             .clip(RoundedCornerShape(16.dp)),
         colors = SearchBarDefaults.colors(
             containerColor = GotDarkGray,
@@ -60,4 +63,4 @@ fun MySearchBarView(myViewModel: SearchViewModel) {
             )
         )
     ) {}
-} 
+}

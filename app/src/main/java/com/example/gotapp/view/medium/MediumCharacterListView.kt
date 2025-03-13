@@ -74,6 +74,7 @@ fun MediumCharacterListView(modifier: Modifier = Modifier, navController: NavCon
     val searchViewModel: SearchViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
+    val searchedText by searchViewModel.searchedText.observeAsState("")
 
     Scaffold(
         topBar = {
@@ -116,11 +117,12 @@ fun MediumCharacterListView(modifier: Modifier = Modifier, navController: NavCon
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
-                        SearchScreen(searchViewModel, PaddingValues(0.dp))
+                        MySearchBarView(searchViewModel)
                     }
 
-                    items(characters) { character ->
-                        // ... Card existente ...
+                    items(characters.filter { character ->
+                        character.fullName.contains(searchedText, ignoreCase = true)
+                    }) { character ->
                     }
                 }
             }

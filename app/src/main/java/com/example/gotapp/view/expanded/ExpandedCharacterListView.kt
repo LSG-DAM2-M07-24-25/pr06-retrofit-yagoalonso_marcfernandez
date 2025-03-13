@@ -102,7 +102,14 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
-                        SearchScreen(searchViewModel, PaddingValues(0.dp))
+                        SearchScreen(
+                            myViewModel = searchViewModel,
+                            paddingValues = PaddingValues(0.dp),
+                            characters = characters,
+                            onCharacterClick = { character ->
+                                navController.navigate(Routes.DetailScreen.createRoute(character.id.toString()))
+                            }
+                        )
                     }
 
                     items(characters) { character ->
