@@ -105,7 +105,7 @@ Esta aplicación Android, desarrollada con Jetpack Compose, ofrece una experienc
 
 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/LSG-DAM2-M07-24-25/pr06-retrofit-yagoalonso_marcfernandez.git]
+git clone https://github.com/LSG-DAM2-M07-24-25/pr06-retrofit-yagoalonso_marcfernandez.git
 ```
 
 2. Abrir el proyecto en Android Studio
@@ -131,4 +131,4 @@ git clone [https://github.com/LSG-DAM2-M07-24-25/pr06-retrofit-yagoalonso_marcfe
 
 ## Contacto
 
-@yagoalonso1 en github. 
+@yagoalonso1 y @Marcausente en Github. 
