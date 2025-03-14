@@ -60,6 +60,7 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
     val searchViewModel: SearchViewModel = viewModel()
     val showLoading: Boolean by myViewModel.loading.observeAsState(true)
     val characters: List<CharacterData> by myViewModel.characters.observeAsState(emptyList())
+    val searchedText by searchViewModel.searchedText.observeAsState("")
 
     Scaffold(
         topBar = {
@@ -102,17 +103,12 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
-                        SearchScreen(
-                            myViewModel = searchViewModel,
-                            paddingValues = PaddingValues(0.dp),
-                            characters = characters,
-                            onCharacterClick = { character ->
-                                navController.navigate(Routes.DetailScreen.createRoute(character.id.toString()))
-                            }
-                        )
+                        MySearchBarView(searchViewModel)
                     }
 
-                    items(characters) { character ->
+                    items(characters.filter { character ->
+                        character.fullName.contains(searchedText, ignoreCase = true)
+                    }) { character ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -138,7 +134,7 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
                                 Card(
                                     shape = CircleShape,
                                     border = BorderStroke(2.dp, GotGold),
-                                    modifier = Modifier.size(80.dp)
+                                    modifier = Modifier.size(120.dp)
                                 ) {
                                     GlideImage(
                                         model = character.imageUrl,
@@ -152,7 +148,7 @@ fun ExpandedCharacterListView(modifier: Modifier = Modifier, navController: NavC
                                     Text(
                                         text = character.fullName,
                                         color = GotGold,
-                                        fontSize = 18.sp,
+                                        fontSize = 20.sp,
                                         fontWeight = FontWeight.Bold,
                                         fontFamily = FontFamily.Serif
                                     )

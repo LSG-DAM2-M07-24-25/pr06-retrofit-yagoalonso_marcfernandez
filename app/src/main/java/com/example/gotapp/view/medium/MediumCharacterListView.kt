@@ -120,9 +120,89 @@ fun MediumCharacterListView(modifier: Modifier = Modifier, navController: NavCon
                         MySearchBarView(searchViewModel)
                     }
 
-                    items(characters.filter { character ->
-                        character.fullName.contains(searchedText, ignoreCase = true)
-                    }) { character ->
+                    if (searchedText.isEmpty()) {
+                        items(searchViewModel.searchHistory.value ?: emptyList()) { search ->
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                                colors = CardDefaults.cardColors(containerColor = GotDarkGray)
+                            ) {
+                                Text(
+                                    text = search,
+                                    modifier = Modifier.padding(16.dp),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = GotGold
+                                )
+                            }
+                        }
+                    } else {
+                        items(characters.filter { character ->
+                            character.fullName.contains(searchedText, ignoreCase = true)
+                        }) { character ->
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .clickable {
+                                        navController.navigate(Routes.DetailScreen.createRoute(character.id.toString()))
+                                    },
+                                colors = CardDefaults.cardColors(
+                                    containerColor = GotDarkGray
+                                ),
+                                elevation = CardDefaults.cardElevation(
+                                    defaultElevation = 4.dp
+                                ),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    Card(
+                                        shape = CircleShape,
+                                        border = BorderStroke(2.dp, GotGold),
+                                        modifier = Modifier.size(100.dp)  // Tamaño específico para Medium
+                                    ) {
+                                        GlideImage(
+                                            model = character.imageUrl,
+                                            contentDescription = character.fullName,
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.fillMaxSize()
+                                        )
+                                    }
+
+                                    Column {
+                                        Text(
+                                            text = character.fullName,
+                                            color = GotGold,
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Serif
+                                        )
+                                        if (character.title.isNotBlank()) {
+                                            Text(
+                                                text = character.title,
+                                                color = Color.Gray,
+                                                fontSize = 14.sp,
+                                                fontFamily = FontFamily.Serif
+                                            )
+                                        }
+                                        Text(
+                                            text = character.family,
+                                            color = GotLightGold,
+                                            fontSize = 16.sp,
+                                            fontFamily = FontFamily.Serif
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
